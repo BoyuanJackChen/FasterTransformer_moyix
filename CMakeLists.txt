@@ -11,9 +11,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+message("First line")
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR) # for PyTorch extensions, version should be greater than 3.13
+message("Second line")
 project(FasterTransformer LANGUAGES CXX CUDA)
 
+message("CUDA_TOOLKIT_ROOT_DIR is ${CUDA_TOOLKIT_ROOT_DIR}")
+message("CUDA_VERSION_MAJOR is ${CUDA_VERSION_MAJOR}")
 find_package(CUDA 10.2 REQUIRED)
 
 if(${CUDA_VERSION_MAJOR} VERSION_GREATER_EQUAL "11")

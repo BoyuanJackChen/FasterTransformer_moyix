@@ -25,6 +25,7 @@
 #include "src/fastertransformer/kernels/beam_search_topk_kernels.h"
 #include "src/fastertransformer/kernels/reduce_kernel_utils.cuh"
 
+// K is the number of
 namespace fastertransformer {
 template<typename T, int MAX_K, int THREADBLOCK_SIZE>
 __launch_bounds__(THREADBLOCK_SIZE) __global__ void beam_topK_kernel(
@@ -380,12 +381,48 @@ void invokeTopkBeamSearch(void* workspace,
         T* topk_tmp_val_buf = (T*)(topk_tmp_id_buf + topk_tmp_ids_buf_size);
         if (diversity_rate == 0.0f) {
             switch (beam_width) {
-                CASE_K(1, 128, 128, 8);
-                CASE_K(4, 128, 128, 8);
-                CASE_K(10, 128, 128, 8);
-                CASE_K(16, 128, 128, 5);
-                CASE_K(32, 256, 128, 1);
-                CASE_K(64, 256, 256, 1);
+//                 CASE_K(1, 128, 128, 8);
+//                 CASE_K(4, 128, 128, 8);
+//                 CASE_K(10, 128, 128, 8);
+//                 CASE_K(16, 128, 128, 5);
+//                 CASE_K(32, 256, 128, 1);
+//                 CASE_K(64, 256, 256, 1);
+                CASE_K(1, 32, 32, 1);
+                CASE_K(2, 32, 32, 1);
+                CASE_K(4, 32, 32, 1);
+                CASE_K(8, 32, 32, 1);
+                CASE_K(16, 32, 32, 1);
+                CASE_K(32, 32, 32, 1);
+                CASE_K(64, 32, 32, 1);
+                CASE_K(80, 32, 32, 1);
+                CASE_K(96, 32, 32, 1);
+                CASE_K(112, 32, 32, 1);
+                CASE_K(128, 32, 32, 1);
+                CASE_K(144, 32, 32, 1);
+//                 CASE_K(1, 64, 64, 1);
+//                 CASE_K(2, 64, 64, 1);
+//                 CASE_K(4, 64, 64, 1);
+//                 CASE_K(8, 64, 64, 1);
+//                 CASE_K(16, 64, 64, 1);
+//                 CASE_K(32, 64, 64, 1);
+//                 CASE_K(64, 64, 64, 1);
+//                 CASE_K(80, 64, 64, 1);
+//                 CASE_K(96, 64, 64, 1);
+//                 CASE_K(112, 64, 64, 1);
+//                 CASE_K(128, 64, 64, 1);
+//                 CASE_K(144, 64, 64, 1);
+//                 CASE_K(1, 128, 128, 1);
+//                 CASE_K(2, 128, 128, 1);
+//                 CASE_K(4, 128, 128, 1);
+//                 CASE_K(8, 128, 128, 1);
+//                 CASE_K(16, 128, 128, 1);
+//                 CASE_K(32, 128, 128, 1);
+//                 CASE_K(64, 128, 128, 1);
+//                 CASE_K(80, 128, 128, 1);
+//                 CASE_K(96, 128, 128, 1);
+//                 CASE_K(112, 128, 128, 1);
+//                 CASE_K(128, 128, 128, 1);
+//                 CASE_K(144, 128, 128, 1);
                 default:
                     topk_stage_1_opt2_general<T, 128, 1><<<batch_size * beam_width * 1, 128, 0, stream>>>(
                         log_probs, temp_log_probs, topk_tmp_id_buf, topk_tmp_val_buf, beam_width, vocab_size);
@@ -399,10 +436,42 @@ void invokeTopkBeamSearch(void* workspace,
         }
         else {
             switch (beam_width) {
-                CASE_K_DIV(1, 256, 256);
-                CASE_K_DIV(4, 256, 256);
-                CASE_K_DIV(16, 256, 64);
-                CASE_K_DIV(64, 256, 64);
+                CASE_K_DIV(1, 32, 32);
+                CASE_K_DIV(2, 32, 32);
+                CASE_K_DIV(4, 32, 32);
+                CASE_K_DIV(8, 32, 32);
+                CASE_K_DIV(16, 32, 32);
+                CASE_K_DIV(32, 32, 32);
+                CASE_K_DIV(64, 32, 32);
+                CASE_K_DIV(80, 32, 32);
+                CASE_K_DIV(96, 32, 32);
+                CASE_K_DIV(112, 32, 32);
+                CASE_K_DIV(128, 32, 32);
+                CASE_K_DIV(144, 32, 32);
+//                 CASE_K_DIV(1, 64, 64);
+//                 CASE_K_DIV(2, 64, 64);
+//                 CASE_K_DIV(4, 64, 64);
+//                 CASE_K_DIV(8, 64, 64);
+//                 CASE_K_DIV(16, 64, 64);
+//                 CASE_K_DIV(32, 64, 64);
+//                 CASE_K_DIV(64, 64, 64);
+//                 CASE_K_DIV(80, 64, 64);
+//                 CASE_K_DIV(96, 64, 64);
+//                 CASE_K_DIV(112, 64, 64);
+//                 CASE_K_DIV(128, 64, 64);
+//                 CASE_K_DIV(144, 64, 64);
+//                 CASE_K_DIV(1, 128, 128);
+//                 CASE_K_DIV(2, 128, 128);
+//                 CASE_K_DIV(4, 128, 128);
+//                 CASE_K_DIV(8, 128, 128);
+//                 CASE_K_DIV(16, 128, 128);
+//                 CASE_K_DIV(32, 128, 128);
+//                 CASE_K_DIV(64, 128, 128);
+//                 CASE_K_DIV(80, 128, 128);
+//                 CASE_K_DIV(96, 128, 128);
+//                 CASE_K_DIV(112, 128, 128);
+//                 CASE_K_DIV(128, 128, 128);
+//                 CASE_K_DIV(144, 128, 128);
                 default:
                     printf("[ERROR] Topk kernel does not support beamwidth = %d \n", beam_width);
                     exit(0);

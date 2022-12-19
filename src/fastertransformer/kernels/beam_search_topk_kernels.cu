@@ -393,12 +393,10 @@ void invokeTopkBeamSearch(void* workspace,
                 CASE_K(8, 32, 32, 1);
                 CASE_K(16, 32, 32, 1);
                 CASE_K(32, 32, 32, 1);
+		CASE_K(48, 32, 32, 1);
                 CASE_K(64, 32, 32, 1);
                 CASE_K(80, 32, 32, 1);
                 CASE_K(96, 32, 32, 1);
-                CASE_K(112, 32, 32, 1);
-                CASE_K(128, 32, 32, 1);
-                CASE_K(144, 32, 32, 1);
 //                 CASE_K(1, 64, 64, 1);
 //                 CASE_K(2, 64, 64, 1);
 //                 CASE_K(4, 64, 64, 1);
